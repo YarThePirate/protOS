@@ -1,0 +1,18 @@
+Instructions
+
+Assembly (foo.asm)
+
+$ nasm -f elf64 foo.asm # assemble into foo.o
+$ ld foo.o              # link into a.out
+$ ./a.out               # run it
+$ echo $?               # print out the exit code
+10
+$
+
+Rust (foo.rs)
+
+$ rustc foo.rs # compile our Rust code to foo
+$ ./foo        # run it
+$ echo $?      # print out the exit code
+10
+$
