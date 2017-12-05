@@ -51,4 +51,5 @@ My own implementation (with modifications) of the intermezzOS operating system
 - ... And just like that, I finally understand what "linking" is.
 	- we've compiled our two assembly files separately (multiboot_header.o and boot.o), but GRUB will only be looking for *one* binary file
 	- linking glues both of these .o files together into a single item for the bootloader to load
-	
+	- .........
+	- EUREKA!!! My baby kernel runs! 8D (I had to follow the 'code 0009' common error fix in Appendix A for it to work; other than that, all is well)

@@ -1,7 +1,7 @@
-global start ; makes 'start' available outside this file
+global start
 
 section .text
-BITS 32
+bits 32
 start:
 	mov word [0xb8000], 0x0248 ; H
 	mov word [0xb8002], 0x0265 ; e
