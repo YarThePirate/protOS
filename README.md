@@ -6,14 +6,14 @@ My own implementation (with modifications) of the intermezzOS operating system
 
 (https://os.phil-opp.com/multiboot-kernel/)
 
-##Notes
+## Notes
 
-###Section 1: Background
+### Section 1: Background
 
 - NASM = an assembly language build tool for linux, I think
 - sooooo when I ran the two toy programs from this section, I had to echo the output from somewhere. This seemed super weird to me at the time, but now that I'm writing this it makes sense-ish. I mean, there were no I/O libraries being used, so the output *must* have been saved directly to a register or something. I'll have to look up what the "echo $?" command actually does.
 
-###Section 2: Setting up a development environment
+### Section 2: Setting up a development environment
 
 - "target triple" = architecture-kernel-userland
 	- so in the webassembly target supported natively in rust, this targets genericWASM-unknownKernel-unknownUserland.
@@ -25,7 +25,7 @@ My own implementation (with modifications) of the intermezzOS operating system
 	- ... or building to a generic kernel (x86_64-unknown-unknown) from a x86_64-debian-linux-gnu system
 - looks like we'll be using QEMU to emulate the software we're building for. I was wondering about that.
 
-###Section 3: Booting up
+### Section 3: Booting up
 
 - Huh. In order to maintain backwards compatibility, x86 processors basically go through a rapid evolution from the original 8086 to now in succession on bootup. The boot process is just a bunch of more modern hacks tacked on to whatever came before.
 - It gots through various "modes" that kind of simulate the architecture through time:
@@ -34,7 +34,7 @@ My own implementation (with modifications) of the intermezzOS operating system
 	3) 'long mode' : 64-bits (but it actually goes into 'compatibility mode' first... thanks, amd.)
 - our goal: progress up the boot ladder and wind up in "long mode"
 
-####1) Step 1: Firmware and BIOS
+#### 1) Step 1: Firmware and BIOS
 - BIOS is a tiny, read-only program that essentially runs a self-diagnostic and then looks for a boot image to load
 - does this by looking for "magic numbers" set in the drive's memory... be prepared for more magicks >.<
 - The boot code that the BIOS loads is NOT the kernel (yet); it's a bootloader
