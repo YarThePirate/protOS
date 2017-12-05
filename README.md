@@ -17,6 +17,29 @@ My own implementation (with modifications) of the intermezzOS operating system
 
 - "target triple" = architecture-kernel-userland
 	- so in the webassembly target supported natively in rust, this targets genericWASM-unknownKernel-unknownUserland.
-- triple can sometimes be extended to a quad, that includes the target OS
+- triple can sometimes be extended to a quad (actually just called a "target" at that point), that includes the target OS
 	- format would then be: architecture-os-kernel-userland
 	- e.g. x86_64-debian-linux-gnu
+- cross-compiling: when the target you are compiling to is different than the target of the host you're building on
+	- e.g. building an arm OS from an x86_64-debian-linux-gnu system
+	- ... or building to a generic kernel (x86_64-unknown-unknown) from a x86_64-debian-linux-gnu system
+- looks like we'll be using QEMU to emulate the software we're building for. I was wondering about that.
+
+###Section 3: Booting up
+
+- Huh. In order to maintain backwards compatibility, x86 processors basically go through a rapid evolution from the original 8086 to now in succession on bootup. The boot process is just a bunch of more modern hacks tacked on to whatever came before.
+- It gots through various "modes" that kind of simulate the architecture through time:
+	1) 'real mode' : 16-bit mode from the original x86 chips
+	2) 'protected mode' : 32-bit mode. called "protected" because this was the first time the hardware protected itself by restricting permissions
+	3) 'long mode' : 64-bits (but it actually goes into 'compatibility mode' first... thanks, amd.)
+- our goal: progress up the boot ladder and wind up in "long mode"
+
+####1) Step 1: Firmware and BIOS
+- BIOS is a tiny, read-only program that essentially runs a self-diagnostic and then looks for a boot image to load
+- does this by looking for "magic numbers" set in the drive's memory... be prepared for more magicks >.<
+- The boot code that the BIOS loads is NOT the kernel (yet); it's a bootloader
+	- in our case, the bootloader we're using is GRUB.
+	- the bootloader is responsible for loading the kernel into memory
+	- GRUB will also handle the transition from real mode to protected mode *for us*
+		- search for "A20 line" to find out what we would have needed to know otherwise
+	
