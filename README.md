@@ -42,4 +42,9 @@ My own implementation (with modifications) of the intermezzOS operating system
 	- the bootloader is responsible for loading the kernel into memory
 	- GRUB will also handle the transition from real mode to protected mode *for us*
 		- search for "A20 line" to find out what we would have needed to know otherwise
-	
+- GRUB, by convention, looks for the label 'start' and executes that
+- I'll keep my notes on x86 instructions to a minimum, but so far:
+	- mov -> mov size place thing (mov word [0xb8000], 0x0248 )
+	- The screen is "memory mapped" to start at 0xb8000, meaning that whatever (e.g.) ASCII character is stored in memory location 0xb8000 will appear in the top left of the screen
+		- this item takes up 2 bytes: foreground color (4 bits), text color (4 bits), ASCII character code in hex (8 bits)
+		- e.g. 0x0257 = black background (0x0___) with green text (0x_2__) and ASCII 'W' (0x__57)
