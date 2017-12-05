@@ -48,3 +48,7 @@ My own implementation (with modifications) of the intermezzOS operating system
 	- The screen is "memory mapped" to start at 0xb8000, meaning that whatever (e.g.) ASCII character is stored in memory location 0xb8000 will appear in the top left of the screen
 		- this item takes up 2 bytes: foreground color (4 bits), text color (4 bits), ASCII character code in hex (8 bits)
 		- e.g. 0x0257 = black background (0x0___) with green text (0x_2__) and ASCII 'W' (0x__57)
+- ... And just like that, I finally understand what "linking" is.
+	- we've compiled our two assembly files separately (multiboot_header.o and boot.o), but GRUB will only be looking for *one* binary file
+	- linking glues both of these .o files together into a single item for the bootloader to load
+	
